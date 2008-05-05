@@ -1,0 +1,19 @@
+1.5	- Released 2005-04-13
+	- Moved *.cvsup out of the package.
+
+1.4	- Released 2004-03-07
+	- Now follows symlink in /usr/ports.
+	- Now prints error message in case no drivers are found.
+
+1.3	- Released 2003-11-04
+	- Removed support for old-style supfile.xxx config files.
+
+1.2	- Released 2003-10-20
+	- Now uses mktemp(1) to create temporary files.
+	- Fixed a bug in update code.
+
+1.1	- Released 2003-10-19
+	- Made it possible to seclect wich collections to update.
+
+0.1-1.0	- Development started 2001-12-10
+	- No change log was maintained during this time.
