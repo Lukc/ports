@@ -1,0 +1,40 @@
+#!/bin/sh
+#
+# /etc/ports/drivers/git: git driver script for ports(8)
+#
+
+OLDPWD=$PWD
+
+if [ $# -ne 1 ]; then
+	echo "usage: $0 <file>"
+	exit 1
+fi
+
+. $1
+
+if [ -z "$ROOT_DIR" ]; then
+	echo "\$ROOT_DIR not set in '$1'." >&2
+	exit 2
+fi
+
+if [ -z "$URL" ]; then
+	echo "\$URL not set in '$1'." >&2
+	exit 2
+fi
+
+for REPO in $URL; do
+	PORT=`echo $REPO | sed -n '/#.*$/s|^.*#||p'`
+	if [ ! -d $ROOT_DIR/$PORT ]; then
+		git clone $REPO $ROOT_DIR/$PORT --depth 1
+		cd $ROOT_DIR/$PORT
+	else
+		cd $ROOT_DIR/$PORT
+		git-reset --hard -q
+		git pull
+	fi
+done
+
+git-checkout ${BRANCH:-master}
+
+cd $OLDPWD
+
