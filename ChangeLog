@@ -1,3 +1,9 @@
+1.6	- Not released yet.
+	- Drivers included in the package.
+		- git
+		- httpup
+		- rsync
+
 1.5	- Released 2005-04-13
 	- Moved *.cvsup out of the package.
 
