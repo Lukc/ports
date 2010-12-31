@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 #
 #  ports
 # 
@@ -36,7 +36,7 @@ update_ports() {
 		exit 1
 	fi
 
-	shopt -s nullglob
+	setopt NULL_GLOB
 	export PORTS_DIR
 
 	if [ "$OPT_COLLECTIONS" ]; then
