@@ -29,12 +29,12 @@ for REPO in $URL; do
 		cd $ROOT_DIR/$PORT
 	else
 		cd $ROOT_DIR/$PORT
-		git-reset --hard -q
+		git reset --hard -q
 		git pull
 	fi
 done
 
-git-checkout ${BRANCH:-master}
+git checkout ${BRANCH:-master}
 
 cd $OLDPWD
 
