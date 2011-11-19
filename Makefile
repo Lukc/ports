@@ -29,8 +29,10 @@ VERSION  = 1.5
 
 all: ports ports.8
 
-%: %.in
-	sed "s/#VERSION#/$(VERSION)/" $< > $@
+ports: ports.in
+	sed -e "s/#VERSION#/$(VERSION)/" ports > $@
+ports.8: ports.8.in
+	sed -e "s/#VERSION#/$(VERSION)/" ports.8 > $@
 
 .PHONY:	install dist clean
 
