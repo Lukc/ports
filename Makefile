@@ -19,11 +19,13 @@
 #  USA.
 #
 
-DESTDIR	 =
-BINDIR	 = /usr/bin
-MANDIR	 = /usr/man
-ETCDIR	 = /etc/ports
-PORTSDIR = /usr/ports
+DESTDIR    =
+PREFIX     = /usr
+BINDIR     = $(PREFIX)/bin
+MANDIR     = $(PREFIX)/share/man
+SYSCONFDIR = /etc
+FILESDIR   = $(SYSCONFDIR)/ports
+PORTSDIR   = $(PREFIX)/ports
 
 VERSION  = 1.5
 
@@ -39,7 +41,7 @@ ports.8: ports.8.in
 install: all
 	install -D -m0755 ports $(DESTDIR)$(BINDIR)/ports
 	install -D -m0644 ports.8 $(DESTDIR)$(MANDIR)/man8/ports.8
-	install -d $(DESTDIR)$(ETCDIR)/drivers
+	install -d $(DESTDIR)$(FILESDIR)/drivers
 	install -d $(DESTDIR)$(PORTSDIR)
 
 dist: dist-tgz dist-txz
