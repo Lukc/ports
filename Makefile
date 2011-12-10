@@ -2,6 +2,7 @@
 #  ports - update/list ports collection
 #
 #  Copyright (c) 2002-2005 Per Liden <per@fukt.bth.se> 
+#  Copyright (c) 2011 Luka Vandervelden <lukc@upyum.com>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
