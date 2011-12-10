@@ -42,8 +42,12 @@ install: all
 	install -d $(DESTDIR)$(ETCDIR)/drivers
 	install -d $(DESTDIR)$(PORTSDIR)
 
-dist: clean
+dist: dist-tgz dist-txz
+
+dist-tgz: clean
 	(cd .. && tar czvf ports-$(VERSION).tar.gz ports-$(VERSION))
+dist-txz: clean
+	(cd .. && tar cJvf ports-$(VERSION).tar.xz ports-$(VERSION))
 
 clean:
 	rm -f ports ports.8
