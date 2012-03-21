@@ -28,7 +28,7 @@ SYSCONFDIR = /etc
 FILESDIR   = ${SYSCONFDIR}/ports
 PORTSDIR   = ${PREFIX}/ports
 
-VERSION  = 1.5
+VERSION  = 1.6
 
 Q ?= @
 
