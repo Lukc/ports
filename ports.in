@@ -52,7 +52,7 @@ update_ports() {
 	setopt NULL_GLOB
 	export PORTS_DIR
 
-	if [ "$OPT_COLLECTIONS" ]; then
+	if [ -n "$OPT_COLLECTIONS" ]; then
 		# Update selected collections
 		for collection in $OPT_COLLECTIONS; do
 			collection_exists=no
