@@ -2,6 +2,7 @@
 #  ports - update/list ports collection
 #
 #  Copyright (c) 2002-2005 Per Liden <per@fukt.bth.se> 
+#  Copyright (c) 2011 Luka Vandervelden <lukc@upyum.com>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -19,29 +20,37 @@
 #  USA.
 #
 
-DESTDIR	 =
-BINDIR	 = /usr/bin
-MANDIR	 = /usr/man
-ETCDIR	 = /etc/ports
-PORTSDIR = /usr/ports
+DESTDIR    =
+PREFIX     = /usr
+BINDIR     = $(PREFIX)/bin
+MANDIR     = $(PREFIX)/share/man
+SYSCONFDIR = /etc
+FILESDIR   = $(SYSCONFDIR)/ports
+PORTSDIR   = $(PREFIX)/ports
 
 VERSION  = 1.5
 
 all: ports ports.8
 
-%: %.in
-	sed "s/#VERSION#/$(VERSION)/" $< > $@
+ports: ports.in
+	sed -e "s/#VERSION#/$(VERSION)/" ports > $@
+ports.8: ports.8.in
+	sed -e "s/#VERSION#/$(VERSION)/" ports.8 > $@
 
 .PHONY:	install dist clean
 
 install: all
 	install -D -m0755 ports $(DESTDIR)$(BINDIR)/ports
 	install -D -m0644 ports.8 $(DESTDIR)$(MANDIR)/man8/ports.8
-	install -d $(DESTDIR)$(ETCDIR)/drivers
+	install -d $(DESTDIR)$(FILESDIR)/drivers
 	install -d $(DESTDIR)$(PORTSDIR)
 
-dist: clean
+dist: dist-tgz dist-txz
+
+dist-tgz: clean
 	(cd .. && tar czvf ports-$(VERSION).tar.gz ports-$(VERSION))
+dist-txz: clean
+	(cd .. && tar cJvf ports-$(VERSION).tar.xz ports-$(VERSION))
 
 clean:
 	rm -f ports ports.8

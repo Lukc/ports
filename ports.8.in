@@ -37,6 +37,6 @@ Directory for driver scripts.
 pkgadd(8), pkgrm(8), pkginfo(8), cvsup(1)
 .SH AUTHOR
 .nf
-Per Liden <per@fukt.bth.se>
+Per Liden <per@fukt.bth.se>, Luka Vandervelden <lukc@upyum.com>
 http://www.fukt.bth.se/~per/
 .fi

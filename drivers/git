@@ -10,31 +10,63 @@ if [ $# -ne 1 ]; then
 	exit 1
 fi
 
+# Exports to avoid having env vars disturbing the script.
+root_dir=""
+url=""
+branch=""
+
 . $1
 
-if [ -z "$ROOT_DIR" ]; then
-	echo "\$ROOT_DIR not set in '$1'." >&2
+# Lowercase syntax is recommended, but old ports files used capitalized
+#+ ones. To avoid having problems of deprecation or retro-compatibility,
+#+ we just use the capitalized variables if the lowercase ones are not
+#+ set.
+if [ -z "$root_dir" ]; then
+	root_dir="$ROOT_DIR"
+fi
+
+if [ -z "$url" ]; then
+	url="$URL"
+fi
+
+if [ -z "$branch" ]; then
+	branch="$BRANCH"
+fi
+
+# Not having all parameters is fatal. They were set in the ports file.
+if [ -z "$root_dir" ]; then
+	echo "\$root_dir not set in '$1'." >&2
 	exit 2
 fi
 
-if [ -z "$URL" ]; then
-	echo "\$URL not set in '$1'." >&2
+if [ -z "$url" ]; then
+	echo "\$url not set in '$1'." >&2
 	exit 2
 fi
 
-for REPO in $URL; do
+if [ -e "$root_dir" ]; then
+	mkdir -p "$root_dir"
+fi
+
+for REPO in $url; do
 	PORT=`echo $REPO | sed -n '/#.*$/s|^.*#||p'`
-	if [ ! -d $ROOT_DIR/$PORT ]; then
-		git clone $REPO $ROOT_DIR/$PORT --depth 1
-		cd $ROOT_DIR/$PORT
+	if [ ! -e $root_dir/$PORT ]; then
+		git clone $REPO $root_dir/$PORT --depth 1
+		cd $root_dir/$PORT
+	elif [ -e $root_dir/$PORT ] && [ ! -d $root_dir/$PORT ]; then
+		echo "-- '$root_dir/$PORT' exists and is not a directory." >&2
+		return 1
+	elif [ -d $root_dir/$PORT ] && [ ! -d $root_dir/$PORT ]; then
+		echo "-- '$root_dir/$PORT' is not a git repository." >&2
+		return 2
 	else
-		cd $ROOT_DIR/$PORT
-		git-reset --hard -q
+		cd $root_dir/$PORT
+		git reset --hard -q
 		git pull
 	fi
 done
 
-git-checkout ${BRANCH:-master}
+git checkout ${branch:-master}
 
 cd $OLDPWD
 

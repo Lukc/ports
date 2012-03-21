@@ -3,6 +3,7 @@
 #  ports
 # 
 #  Copyright (c) 2002-2004 Per Liden
+#  Copyright (c) 2011 Luka Vandervelden <lukc@upyum.com>
 # 
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -23,16 +24,28 @@
 VERSION="#VERSION#"
 PORTS_DIR="/usr/ports"
 
+info() {
+	echo -e "${fg_bold[green]}--${fg_bold[white]} $1${reset_color}"
+}
+
+warning() {
+	echo -e "${fg_bold[yellow]}-- WARNING: $1${reset_color}" >&2
+}
+
+error() {
+	echo -e "${fg_bold[red]}-- ERROR: $1${reset_color}" >&2
+}
+
 check_ports_dir() {
 	if [ ! -d "$PORTS_DIR" ]; then
-		echo "$COMMAND: directory '$PORTS_DIR' not found"
+		error "$COMMAND: directory '$PORTS_DIR' not found"
 		exit 1
 	fi
 }
 
 update_ports() {
 	if [ "`id -u`" != "0" ]; then
-		echo "$COMMAND: only root can update ports"
+		error "$COMMAND: only root can update ports"
 		exit 1
 	fi
 
@@ -57,7 +70,7 @@ update_ports() {
 					fi
 				done
 			else
-				echo "$COMMAND: collection '$collection' not found"
+				error "$COMMAND: collection '$collection' not found"
 			fi
 		done
 	else
@@ -72,7 +85,7 @@ update_ports() {
 		done
 		
 		if [ ! "$driver" ]; then
-			echo "$COMMAND: no driver(s) installed"
+			error "$COMMAND: no driver(s) installed"
 		fi
 	fi
 }
@@ -114,7 +127,7 @@ list_differences() {
 		sort $output >> $output_sorted
 		column -t $output_sorted
 	else
-		echo "No differences found"
+		info "No differences found"
 	fi
 }
 
