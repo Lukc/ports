@@ -63,13 +63,23 @@ install-%: drivers/% install-dirs
 	
 
 dist: dist-tgz dist-tbz2 dist-txz
+../ports-${VERSION}: clean
+	@echo "-- Creating distribution directory."
+	$Qif [ ! -e ../ports-${VERSION} ]; then \
+		(cd .. && cp -r ports ports-${VERSION}); \
+	fi
+	@# The .git files are not required for distribution.
+	$Qrm -rf ../ports-${VERSION}/.git
 
-dist-tgz: clean
-	(cd .. && tar czvf ports-${VERSION}.tar.gz ports-${VERSION})
-dist-tbz2: clean
-	(cd .. && tar cjvf ports-${VERSION}.tar.bz2 ports-${VERSION})
-dist-txz: clean
-	(cd .. && tar cJvf ports-${VERSION}.tar.xz ports-${VERSION})
+dist-tgz: clean ../ports-${VERSION}
+	@echo "-- Building tar.gz tarball."
+	$Q(cd .. && tar czvf ports-${VERSION}.tar.gz ports-${VERSION})
+dist-tbz2: clean ../ports-${VERSION}
+	@echo "-- Building tar.bz2 tarball."
+	$Q(cd .. && tar cjvf ports-${VERSION}.tar.bz2 ports-${VERSION})
+dist-txz: clean ../ports-${VERSION}
+	@echo "-- Building tar.xz tarball."
+	$Q(cd .. && tar cJvf ports-${VERSION}.tar.xz ports-${VERSION})
 
 clean:
 	@echo "-- Cleaning."
